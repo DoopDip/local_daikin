@@ -203,6 +203,8 @@ class LocalDaikin(ClimateEntity):
         if hvac_mode == HVACMode.OFF:
             self.turn_off()
         else:
+            if hvac_mode == HVACMode.AUTO:
+                hvac_mode = HVACMode.COOL
             new_mode = REVERSE_MODE_MAP.get(hvac_mode)
             if new_mode is None:
                 raise Exception(f"Unknown hvac mode {hvac_mode}")
