@@ -177,7 +177,7 @@ class LocalDaikin(ClimateEntity):
         self._min_temp = 10
             
 
-        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.AUTO, HVACMode.DRY, HVACMode.FAN_ONLY]
+        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.DRY, HVACMode.FAN_ONLY]
         self._attr_fan_modes = [
             HAFanMode.FAN_QUIET, 
             HAFanMode.FAN_AUTO, 
