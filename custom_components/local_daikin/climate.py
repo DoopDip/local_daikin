@@ -156,7 +156,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         await obj.initialize_unique_id(hass)
         entities.append(obj)
         
-    async_add_entities(entities)
+    async_add_entities(entities, update_before_add=True)
 
 class LocalDaikin(ClimateEntity):
     def __init__(self, ip_address: str):
@@ -342,10 +342,12 @@ class LocalDaikin(ClimateEntity):
     def turn_off(self):
         _LOGGER.info("Turned off")
         self._update_state(False)
+        self.update()
 
     def turn_on(self):
         _LOGGER.info("Turned on")
         self._update_state(True)
+        self.update()
 
     def get_swing_state(self, data: dict) -> str:
         
@@ -406,3 +408,6 @@ class LocalDaikin(ClimateEntity):
         self._energy_today = self.find_value_by_pn(data, '/dsiot/edge/adr_0100.i_power.week_power', 'week_power', 'datas')[-1]
         self._runtime_today = self.find_value_by_pn(data, '/dsiot/edge/adr_0100.i_power.week_power', 'week_power', 'today_runtime')
         self.schedule_update_ha_state()
+
+    async def async_update(self):
+        await self.hass.async_add_executor_job(self.update)
