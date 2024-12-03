@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import requests
 from homeassistant.components.climate import ClimateEntity, ClimateEntityFeature
@@ -410,4 +411,4 @@ class LocalDaikin(ClimateEntity):
         self.schedule_update_ha_state()
 
     async def async_update(self):
-        await self.hass.async_add_executor_job(self.update)
+        await asyncio.to_thread(self.update)
