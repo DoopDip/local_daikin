@@ -180,10 +180,10 @@ class LocalDaikin(ClimateEntity):
         self._energy_today = None
         self._mac = None
         self._max_temp = 30 # may need some logic to set this based on the device ID
-        self._min_temp = 10
+        self._min_temp = 16
             
 
-        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL, HVACMode.AUTO, HVACMode.DRY, HVACMode.FAN_ONLY]
+        self._attr_hvac_modes = [HVACMode.OFF, HVACMode.COOL, HVACMode.DRY, HVACMode.FAN_ONLY]
         self._attr_fan_modes = [
             HAFanMode.FAN_QUIET, 
             HAFanMode.FAN_AUTO, 
@@ -209,6 +209,8 @@ class LocalDaikin(ClimateEntity):
         if hvac_mode == HVACMode.OFF:
             self.turn_off()
         else:
+            if hvac_mode == HVACMode.AUTO:
+                hvac_mode = HVACMode.COOL
             new_mode = REVERSE_MODE_MAP.get(hvac_mode)
             if new_mode is None:
                 raise Exception(f"Unknown hvac mode {hvac_mode}")
